@@ -1,0 +1,12 @@
+---
+# handlers file for common
+- name: Restart Caddy
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: caddy
+    state: restarted
+
+- name: Reload Caddy
+  ansible.builtin.systemd:
+    name: caddy
+    state: reloaded

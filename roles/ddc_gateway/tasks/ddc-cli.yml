@@ -1,0 +1,24 @@
+---
+- name: Upload DDC CLI to remote instance
+  ansible.builtin.unarchive:
+    src: https://github.com/Cerebellum-Network/ddc-cli/releases/download/{{ ddc_cli_version }}/ddc-cli-{{ ddc_cli_version }}-linux-amd64.zip
+    dest: /usr/local/bin
+    mode: a+x
+    remote_src: true
+    creates: /usr/local/bin/ddc-cli
+
+- name: Generate new mnemonic secret phrase
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      /usr/local/bin/ddc-cli generate-keys  -s sr25519 | grep "Secret phrase" | awk '{$1=$2=""; print $0}' | sed 's/^ *//' | tr -d '\n' > ~/.ddc-secret
+    creates: "~/.ddc-secret"
+
+- name: Load data from DDC secret file
+  ansible.builtin.slurp:
+    src: "~/.ddc-secret"
+  register: slurped_ddc_mnemonic
+
+- name: Decode DDC data and store as fact
+  ansible.builtin.set_fact:
+    ddc_mnemonic: "{{ slurped_ddc_mnemonic.content | b64decode }}"

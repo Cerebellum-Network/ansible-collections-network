@@ -1,0 +1,32 @@
+---
+- name: Install Docker with Compose App
+  ansible.builtin.apt:
+    name:
+      - docker
+      - docker-compose
+    state: present
+
+- name: Start Docker system service
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: true
+
+- name: Create directory for project
+  ansible.builtin.file:
+    path: /app
+    state: directory
+    recurse: true
+
+- name: Deploy systemd service
+  ansible.builtin.template:
+    src: files/docker-compose.service.j2
+    dest: "/etc/systemd/system/docker-compose.service"
+    mode: u=rw,g=r,o=r
+  register: service
+
+- name: Autostart
+  ansible.builtin.systemd:
+    enabled: true
+    daemon_reload: true
+    name: docker-compose

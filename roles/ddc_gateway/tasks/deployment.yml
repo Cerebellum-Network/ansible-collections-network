@@ -1,0 +1,61 @@
+---
+- name: Configure docker environment
+  ansible.builtin.template:
+    src: files/env.j2
+    dest: /app/.env
+    mode: u=rw,g=r,o=r
+  vars:
+    env:
+      LOG_LEVEL: "{{ log_level }}"
+      HTTP_ADDRESS: "https://node-{{ instance_id }}.{{ http_subdomain }}"
+      DEBUG_ENABLED: "{{ debug_enabled }}"
+
+      BLOCKCHAIN_SECRET_PHRASE: "{{ ddc_mnemonic }}"
+
+      BLOCKCHAIN_API_URL: "{{ blockchain_api_url }}"
+      BLOCKCHAIN_DDC_BUCKET_CONTRACT: "{{ blockchain_ddc_bucket_contract }}"
+      BLOCKCHAIN_ACTIVITY_CAPTURE_CONTRACT: "{{ blockchain_activity_capture_contract }}"
+
+      REDIS_URL: "{{ redis_url }}"
+      REDIS_PASSWORD: "{{
+        lookup(
+          'community.hashi_vault.vault_kv2_get',
+          'dev/k8s/ddc-' + environment_type + '/dac-redis',
+          url='https://vault.shared.aws.cere.io',
+          auth_method='aws_iam',
+          role_id='ansible',
+          region='us-west-2',
+          engine_mount_point='secret-network'
+        )['secret']['REDIS_PASSWORD']
+      }}"
+
+      CLUSTER_ID: "{{ cluster_id }}"
+      NODE_ID: "{{ instance_id + 1 }}"
+      SIZE: "{{ size }}"
+      LOCATION: "{{ location }}"
+
+- name: Configure docker deployment
+  ansible.builtin.set_fact:
+    service_ports:
+      - "5000:5000"
+      - "8080:8080"
+    service_volumes:
+      - "{{ mnt_point }}/data:/data:rw"
+      - "{{ mnt_point }}/config:/config:rw"
+
+- name: Get latest image
+  community.docker.docker_image:
+    name: "{{ image_registry }}/{{ image_name }}"
+    tag: "{{ image_tag }}"
+    source: pull
+
+- name: Deploy docker compose
+  ansible.builtin.template:
+    src: files/docker-compose.yml.j2
+    dest: /app/docker-compose.yml
+    mode: u=rw,g=r,o=r
+  register: compose
+  vars:
+    ports: "{{ service_ports }}"
+    volumes: "{{ service_volumes }}"
+  notify: Restart Docker Compose

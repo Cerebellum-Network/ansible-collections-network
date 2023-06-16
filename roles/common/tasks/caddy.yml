@@ -1,0 +1,25 @@
+---
+- name: Add Caddy APT key
+  ansible.builtin.apt_key:
+    url: "https://dl.cloudsmith.io/public/caddy/stable/gpg.key"
+    id: 65760C51EDEA2017CEA2CA15155B6D79CA56EA34
+    state: present
+
+- name: Add Caddy repository to remote DDC host
+  ansible.builtin.apt_repository:
+    repo: >-
+      deb https://dl.cloudsmith.io/public/caddy/stable/deb/debian any-version main
+    filename: caddy-stable.list
+
+- name: Install Caddy Package via apt
+  ansible.builtin.package:
+    name: caddy
+    state: present
+
+- name: Template a file to /etc/caddy/Caddyfile
+  ansible.builtin.template:
+    src: templates/Caddyfile.j2
+    dest: /etc/caddy/Caddyfile
+    mode: u=rw,g=r,o=r
+  notify:
+    - Restart Caddy

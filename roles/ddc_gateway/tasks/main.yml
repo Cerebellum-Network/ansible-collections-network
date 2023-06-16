@@ -1,0 +1,10 @@
+---
+# tasks file for ddc-gateway
+
+- name: Install DDC-cli
+  ansible.builtin.include_tasks:
+    file: ddc-cli.yml
+
+- name: Deployment
+  ansible.builtin.include_tasks:
+    file: deployment.yml

@@ -1,0 +1,15 @@
+[Unit]
+Description=docker compose service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=0
+ExecStart=/usr/bin/docker-compose -f /app/docker-compose.yml up
+ExecStop=/usr/bin/docker-compose -f /app/docker-compose.yml down
+
+Restart=always
+RestartSec=10s
+
+[Install]
+WantedBy=docker.service
