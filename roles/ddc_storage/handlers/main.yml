@@ -1,2 +1,8 @@
 ---
-# handlers file for ddc-storage
+# handlers file for ddc-gateway
+
+- name: Restart Docker Compose
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: docker-compose
+    state: restarted

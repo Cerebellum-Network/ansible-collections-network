@@ -1,0 +1,44 @@
+---
+- name: Configure docker environment
+  ansible.builtin.template:
+    src: files/env.j2
+    dest: /app/.env
+    mode: u=rw,g=r,o=r
+  vars:
+    env:
+      LOG_LEVEL: "{{ log_level }}"
+      HTTP_ADDRESS: "https://node-{{ instance_id }}.{{ http_subdomain }}"
+      DEBUG_ENABLED: "{{ debug_enabled }}"
+      DDC_BUCKET_CONTRACT_API_URL: "{{ ddc_bucket_contract_url }}"
+      DDC_BUCKET_CONTRACT_ACCOUNT_ID: "{{ ddc_bucket_contract_account_id }}"
+      NODE_ID: "{{ instance_id }}"
+      CLUSTER_ID: "{{ cluster_id }}"
+      STORAGE: "{{ storage }}"
+      PROMETHEUS_PUSHGATEWAY_INTERVAL: "15s"
+      PROMETHEUS_PUSHGATEWAY_URL: "{{ prometheus_pushgateway_url }}"
+
+- name: Configure docker deployment
+  ansible.builtin.set_fact:
+    service_ports:
+      - "5000:5000"
+      - "8080:8080"
+    service_volumes:
+      - "{{ mnt_point }}/data:/data:rw"
+      - "{{ mnt_point }}/config:/config:rw"
+
+- name: Get latest image
+  community.docker.docker_image:
+    name: "{{ image_registry }}/{{ image_name }}"
+    tag: "{{ image_tag }}"
+    source: pull
+
+- name: Deploy docker compose
+  ansible.builtin.template:
+    src: files/docker-compose.yml.j2
+    dest: /app/docker-compose.yml
+    mode: u=rw,g=r,o=r
+  register: compose
+  vars:
+    ports: "{{ service_ports }}"
+    volumes: "{{ service_volumes }}"
+  notify: Restart Docker Compose
