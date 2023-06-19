@@ -1,7 +1,7 @@
 ---
 - name: Configure docker environment
   ansible.builtin.template:
-    src: files/env.j2
+    src: env.j2
     dest: /app/.env
     mode: u=rw,g=r,o=r
   vars:
@@ -34,7 +34,7 @@
 
 - name: Deploy docker compose
   ansible.builtin.template:
-    src: files/docker-compose.yml.j2
+    src: docker-compose.yml.j2
     dest: /app/docker-compose.yml
     mode: u=rw,g=r,o=r
   register: compose
