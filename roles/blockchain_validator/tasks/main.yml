@@ -1,2 +1,6 @@
 ---
 # tasks file for blockchain-validator
+
+- name: Install Blockchain Validator
+  ansible.builtin.include_tasks:
+    file: deployment.yml

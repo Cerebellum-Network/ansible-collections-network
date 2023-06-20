@@ -1,0 +1,53 @@
+---
+- name: Change directory permissions for cere-network/chain-data
+  ansible.builtin.file:
+    dest: /mnt/cere-network/chain-data
+    owner: root
+    group: root
+    state: directory
+    mode: u=rwX,g=rwX,o=rwX
+
+- name: Create a symbolic link for cere-network
+  ansible.builtin.file:
+    src: /mnt/cere-network
+    dest: /root/cere-network
+    owner: root
+    group: root
+    state: link
+    mode: u=rwX,g=rwX,o=rwX
+
+- name: Change directory permissions for cere-data
+  ansible.builtin.file:
+    dest: /mnt/cere-data
+    owner: root
+    group: root
+    mode: u=rwX,g=rwX,o=rwX
+
+- name: Create a symbolic link for cere-data
+  ansible.builtin.file:
+    src: /mnt/cere-data
+    dest: /root/cere-data
+    owner: root
+    group: root
+    state: link
+    mode: u=rwX,g=rwX,o=rwX
+
+- name: Configure docker environment
+  ansible.builtin.template:
+    src: env.j2
+    dest: /app/.env
+    mode: u=rw,g=r,o=r
+  vars:
+    env:
+      NODE_NAME: "{{ NODE_NAME }}"
+      VERSION: "{{ VERSION }}"
+
+      BOOT_NODE_IP_ADDRESS: "{{ BOOT_NODE_IP_ADDRESS }}"
+      BOOT_NODE_IP_ADDRESS_2: "{{ BOOT_NODE_IP_ADDRESS_2 }}"
+      NETWORK_IDENTIFIER: "{{ NETWORK_IDENTIFIER }}"
+      NETWORK_IDENTIFIER_2: "{{ NETWORK_IDENTIFIER_2 }}"
+
+      LOG_LEVEL: "{{ log_level }}"
+      SPEC_PATH: "{{ SPEC_PATH }}"
+
+      CUSTOM_PARAMETERS: "{{ CUSTOM_PARAMETERS }}"

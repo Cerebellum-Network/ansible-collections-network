@@ -8,5 +8,5 @@ releases:
 
         that have been made after the previous release.'
     fragments:
-    - 1.0.0.yml
+      - 1.0.0.yml
     release_date: '2023-06-16'

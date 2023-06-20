@@ -1,6 +1,6 @@
 ---
 # .ansible-lint
-profile: basic # min, basic, moderate, safety, shared, production
+profile: production # min, basic, moderate, safety, shared, production
 
 exclude_paths:
   - .cache/  # implicit unless exclude_paths is defined in config
@@ -37,4 +37,4 @@ warn_list:
   - experimental # experimental is included in the implicit list
 
 # Offline mode disables installation of requirements.yml
-offline: false
+offline: true
