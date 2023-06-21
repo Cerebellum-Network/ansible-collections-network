@@ -51,3 +51,13 @@
       SPEC_PATH: "{{ SPEC_PATH }}"
 
       CUSTOM_PARAMETERS: "{{ CUSTOM_PARAMETERS }}"
+
+- name: Configure docker deployment
+  ansible.builtin.set_fact:
+    service_ports:
+      - "9944:9944"
+      - "9933:9933"
+      - "30333:30333"
+      - "9615:9615"
+    service_volumes:
+      - "{{ mnt_point }}/cere-data:/data:rw"

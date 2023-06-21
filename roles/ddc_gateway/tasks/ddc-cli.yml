@@ -11,7 +11,7 @@
   ansible.builtin.shell:
     cmd: |
       set -o pipefail
-      /usr/local/bin/ddc-cli generate-keys  -s sr25519 | grep "Secret phrase" | awk '{$1=$2=""; print $0}' | sed 's/^ *//' | tr -d '\n' > ~/.ddc-secret
+      /usr/local/bin/ddc-cli generate-keys -s sr25519 | grep "Secret phrase" | awk '{$1=$2=""; print $0}' | sed 's/^ *//' | tr -d '\n' > ~/.ddc-secret
     creates: "~/.ddc-secret"
 
 - name: Load data from DDC secret file

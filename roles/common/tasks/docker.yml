@@ -17,16 +17,3 @@
     path: /app
     state: directory
     recurse: true
-
-- name: Deploy systemd service
-  ansible.builtin.template:
-    src: docker-compose.service.j2
-    dest: "/etc/systemd/system/docker-compose.service"
-    mode: u=rw,g=r,o=r
-  register: service
-
-- name: Autostart
-  ansible.builtin.systemd:
-    enabled: true
-    daemon_reload: true
-    name: docker-compose

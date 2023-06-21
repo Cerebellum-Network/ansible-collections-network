@@ -1,0 +1,32 @@
+---
+# tasks file for docker_deployment
+
+- name: Get latest image
+  community.docker.docker_image:
+    name: "{{ image_registry }}/{{ image_name }}"
+    tag: "{{ image_tag }}"
+    source: pull
+
+- name: Deploy docker compose
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: /app/docker-compose.yml
+    mode: u=rw,g=r,o=r
+  register: compose
+  vars:
+    ports: "{{ service_ports }}"
+    volumes: "{{ service_volumes }}"
+  notify: Restart Docker Compose
+
+- name: Deploy systemd service
+  ansible.builtin.template:
+    src: docker-compose.service.j2
+    dest: "/etc/systemd/system/docker-compose.service"
+    mode: u=rw,g=r,o=r
+  register: service
+
+- name: Autostart
+  ansible.builtin.systemd:
+    enabled: true
+    daemon_reload: true
+    name: docker-compose

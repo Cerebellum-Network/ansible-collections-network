@@ -1,6 +1,6 @@
 ---
 # tasks file for ddc-storage
 
-- name: Deployment
+- name: Configuration
   ansible.builtin.include_tasks:
-    file: deployment.yml
+    file: configuration.yml
