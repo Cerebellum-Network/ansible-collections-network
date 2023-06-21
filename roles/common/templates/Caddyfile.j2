@@ -19,6 +19,6 @@
 	redir @http https://{host}{uri}
 }
 
-{{ ansible_host }} {
+node-{{ instance_id }}.{{ http_subdomain }} {
 	reverse_proxy localhost:8080
 }
