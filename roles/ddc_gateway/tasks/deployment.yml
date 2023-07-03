@@ -30,7 +30,7 @@
       }}"
 
       CLUSTER_ID: "{{ cluster_id }}"
-      NODE_ID: "{{ instance_id + 1 }}"
+      NODE_ID: "{{ instance_id | int + 1 }}"
       SIZE: "{{ size }}"
       LOCATION: "{{ location }}"
 

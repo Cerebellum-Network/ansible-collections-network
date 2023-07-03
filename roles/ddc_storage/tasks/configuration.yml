@@ -11,7 +11,7 @@
       DEBUG_ENABLED: "{{ debug_enabled }}"
       DDC_BUCKET_CONTRACT_API_URL: "{{ ddc_bucket_contract_url }}"
       DDC_BUCKET_CONTRACT_ACCOUNT_ID: "{{ ddc_bucket_contract_account_id }}"
-      NODE_ID: "{{ instance_id }}"
+      NODE_ID: "{{ instance_id | int + 1 }}"
       CLUSTER_ID: "{{ cluster_id }}"
       STORAGE: "{{ storage }}"
       PROMETHEUS_PUSHGATEWAY_INTERVAL: "15s"
