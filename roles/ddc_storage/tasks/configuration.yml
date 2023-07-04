@@ -15,7 +15,7 @@
       CLUSTER_ID: "{{ cluster_id }}"
       STORAGE: "{{ storage }}"
       PROMETHEUS_PUSHGATEWAY_INTERVAL: "15s"
-      PROMETHEUS_PUSHGATEWAY_URL: "{{ prometheus_pushgateway_url }}"
+      PROMETHEUS_PUSHGATEWAY_URL: "{{ prometheus_pushgateway_url | default('') }}"
 
 - name: Configure docker deployment
   ansible.builtin.set_fact:
