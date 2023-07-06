@@ -4,6 +4,7 @@ services:
   {{ service_name }}:
     restart: always
     image: {{ image_registry }}/{{ image_name }}:{{ image_tag }}
+    container: {{ image_name }}
     ports:
     {% for port in ports -%}
     - {{ port }}
