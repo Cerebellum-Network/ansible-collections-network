@@ -1,5 +1,6 @@
 ---
 - name: Configure docker environment
+  no_log: true
   ansible.builtin.template:
     src: env.j2
     dest: /app/.env
