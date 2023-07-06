@@ -20,7 +20,7 @@
       REDIS_PASSWORD: "{{
         lookup(
           'community.hashi_vault.vault_kv2_get',
-          'dev/k8s/ddc-' + environment_type + '/dac-redis',
+          environment_type + '/k8s/ddc-' + environment_type + '/dac-redis',
           url='https://vault.shared.aws.cere.io',
           auth_method='aws_iam',
           role_id='ansible',
