@@ -11,6 +11,13 @@
     ports: "{{ service_ports }}"
     volumes: "{{ service_volumes }}"
 
+- name: Deploy systemd service
+  ansible.builtin.template:
+    src: docker-compose.service.j2
+    dest: "/etc/systemd/system/docker-compose.service"
+    mode: u=rw,g=r,o=r
+  register: service
+
 - name: Get latest image
   community.docker.docker_image:
     name: "{{ image_registry }}/{{ image_name }}"
@@ -26,13 +33,6 @@
     sleep: 10
     port: "{{ item.split(':')[0] | int }}"
     msg: "Timeout to receive connection on {{ item.split(':')[0] }} port"
-
-- name: Deploy systemd service
-  ansible.builtin.template:
-    src: docker-compose.service.j2
-    dest: "/etc/systemd/system/docker-compose.service"
-    mode: u=rw,g=r,o=r
-  register: service
 
 - name: Autostart
   ansible.builtin.systemd:
