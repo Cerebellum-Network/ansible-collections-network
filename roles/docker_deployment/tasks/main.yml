@@ -6,6 +6,7 @@
     name: "{{ image_registry }}/{{ image_name }}"
     tag: "{{ image_tag }}"
     source: pull
+    force_source: true
 
 - name: Deploy docker compose
   ansible.builtin.template:
