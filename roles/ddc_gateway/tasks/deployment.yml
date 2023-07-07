@@ -34,6 +34,7 @@
       NODE_ID: "{{ instance_id | int + 1 }}"
       SIZE: "{{ size }}"
       LOCATION: "{{ location }}"
+  notify: Restart Docker Compose
 
 - name: Configure docker deployment
   ansible.builtin.set_fact:
