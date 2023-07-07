@@ -1,15 +1,21 @@
 [Unit]
-Description=docker compose service
-After=docker.service
-Requires=docker.service
+Description=Docker Compose service
+After=docker.service network-online.target
+Requires=docker.service network-online.target
 
 [Service]
 TimeoutStartSec=0
-ExecStart=/usr/bin/docker-compose -f /app/docker-compose.yml up
-ExecStop=/usr/bin/docker-compose -f /app/docker-compose.yml down
+WorkingDirectory=/app
+
+ExecStartPre=/usr/bin/docker-compose pull --quiet
+ExecStart=/usr/bin/docker-compose up
+
+ExecStop=/usr/bin/docker-compose down
+
+ExecReload=/usr/bin/docker-compose pull --quiet
+ExecReload=/usr/bin/docker-compose up -d
 
 Restart=always
 RestartSec=10s
-
 [Install]
-WantedBy=docker.service
+WantedBy=multi-user.target
