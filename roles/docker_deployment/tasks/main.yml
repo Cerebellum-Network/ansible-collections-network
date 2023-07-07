@@ -1,13 +1,6 @@
 ---
 # tasks file for docker_deployment
 
-- name: Get latest image
-  community.docker.docker_image:
-    name: "{{ image_registry }}/{{ image_name }}"
-    tag: "{{ image_tag }}"
-    source: pull
-    force_source: true
-
 - name: Deploy docker compose
   ansible.builtin.template:
     src: docker-compose.yml.j2
@@ -17,6 +10,13 @@
   vars:
     ports: "{{ service_ports }}"
     volumes: "{{ service_volumes }}"
+
+- name: Get latest image
+  community.docker.docker_image:
+    name: "{{ image_registry }}/{{ image_name }}"
+    tag: "{{ image_tag }}"
+    source: pull
+    force_source: true
   notify: Restart Docker Compose
 
 - name: Wait for service to start
