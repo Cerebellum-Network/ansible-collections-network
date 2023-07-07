@@ -17,17 +17,7 @@
       BLOCKCHAIN_DDC_BUCKET_CONTRACT: "{{ blockchain_ddc_bucket_contract }}"
       BLOCKCHAIN_ACTIVITY_CAPTURE_CONTRACT: "{{ blockchain_activity_capture_contract }}"
 
-      REDIS_URL: "{{
-        lookup(
-          'community.hashi_vault.vault_kv2_get',
-          'dev/k8s/ddc-' + environment_type + '/dac-redis',
-          url='https://vault.shared.aws.cere.io',
-          auth_method='aws_iam',
-          role_id='ansible',
-          region='us-west-2',
-          engine_mount_point='secret-network'
-        )['secret']['REDIS_URL']
-      }}"
+      REDIS_URL: "{{ redis_url }}"
       REDIS_PASSWORD: "{{
         lookup(
           'community.hashi_vault.vault_kv2_get',
