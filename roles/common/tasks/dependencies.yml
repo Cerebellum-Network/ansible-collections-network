@@ -3,6 +3,7 @@
   ansible.builtin.apt:
     name:
       - debian-keyring
+      - ca-certificates
       - debian-archive-keyring
       - apt-transport-https
       - gnupg2
