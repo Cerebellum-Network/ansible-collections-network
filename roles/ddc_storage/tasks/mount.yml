@@ -7,7 +7,7 @@
   register: storage_volume
 
 - name: Mount volume
-  when: do_volume_ids | length > 0
+  when: storage_volume | length > 0
   ansible.posix.mount:
     src: "{{ storage_volume[0].path }}"
     path: "{{ mnt_point }}"
