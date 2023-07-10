@@ -13,7 +13,6 @@
       - python3-setuptools
       - tar
       - unzip
-      - virtualenv
       - zip
     state: present
     update_cache: true
@@ -22,7 +21,7 @@
   ansible.builtin.pip:
     name:
       - docker
-      - docker-compose
+#      - docker-compose
       - requests
       - setuptools
     executable: pip3
