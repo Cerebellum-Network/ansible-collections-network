@@ -15,8 +15,6 @@
       NODE_ID: "{{ instance_id | int + 1 }}"
       CLUSTER_ID: "{{ cluster_id }}"
       STORAGE: "{{ storage }}"
-      PROMETHEUS_PUSHGATEWAY_INTERVAL: "15s"
-      PROMETHEUS_PUSHGATEWAY_URL: "{{ prometheus_pushgateway_url | default('') }}"
   notify: Restart Docker Compose
 
 - name: Configure docker deployment
