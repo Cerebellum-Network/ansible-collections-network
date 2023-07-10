@@ -1,6 +1,10 @@
 ---
 # tasks file for ddc-storage
 
+- name: Mount Storage
+  ansible.builtin.include_tasks:
+    file: mount.yml
+
 - name: Configuration
   ansible.builtin.include_tasks:
     file: configuration.yml

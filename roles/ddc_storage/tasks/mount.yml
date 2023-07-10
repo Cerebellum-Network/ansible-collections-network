@@ -1,0 +1,16 @@
+---
+- name: Find external volumes
+  when: do_volume_ids | length > 0
+  ansible.builtin.find:
+    paths: /dev/disk/by-id
+    file_type: link
+  register: storage_volume
+
+- name: Mount volume
+  when: do_volume_ids | length > 0
+  ansible.posix.mount:
+    src: "{{ storage_volume[0].path }}"
+    path: "{{ mnt_point }}"
+    fstype: ext4
+    opts: defaults,nofail,discard,noatime
+    state: mounted
