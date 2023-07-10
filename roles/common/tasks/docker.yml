@@ -1,9 +1,32 @@
 ---
+- name: Configure apt repo for Docker
+  block:
+    - name: Add an apt signing key
+      ansible.builtin.apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        dest: /etc/apt/keyrings/docker.gpg
+        state: present
+
+    - name: Register apt repository
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+        state: present
+
+- name: Change the permissions for the keyring
+  file:
+    path: /etc/apt/keyrings/docker.gpg
+    mode: u=rw,g=r,o=r
+
 - name: Install Docker with Compose App
   ansible.builtin.apt:
     name:
-      - docker
+      - docker-ce
+      - docker-ce-cli
       - docker-compose
+      # FIXME 
+      # - containerd.io 
+      - docker-buildx-plugin
+      - docker-compose-plugin
     state: present
 
 - name: Start Docker system service
