@@ -31,7 +31,7 @@
       }}"
 
       CLUSTER_ID: "{{ cluster_id }}"
-      NODE_ID: "{{ instance_id | int + 1 }}"
+      NODE_ID: "{{ NODE_ID | default(instance_id | int + 1) }}"
       SIZE: "{{ size }}"
       LOCATION: "{{ location }}"
   notify: Restart Docker Compose

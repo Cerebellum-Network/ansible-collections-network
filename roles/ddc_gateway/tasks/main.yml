@@ -7,4 +7,4 @@
 
 - name: Deployment
   ansible.builtin.include_tasks:
-    file: deployment.yml
+    file: configuration.yml
