@@ -61,3 +61,5 @@
       - "9615:9615"
     service_volumes:
       - "{{ mnt_point }}/cere-data:/data:rw"
+    custom_command: "{{ lookup('ansible.builtin.template', 'command.sh.j2') }}"
+
