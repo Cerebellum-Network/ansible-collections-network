@@ -1,5 +1,5 @@
 ---
-# tasks file for blockchain-validator
+# tasks file for blockchain
 
 - name: Install Blockchain Validator
   ansible.builtin.include_tasks:
