@@ -20,9 +20,6 @@
 }
 
 node-{{ instance_id }}.{{ http_subdomain }} {
- 	log stdout
- 	errors stderr
-
  	reverse_proxy localhost:8080 {
  		except /ws
  	}
