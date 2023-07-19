@@ -1,35 +1,25 @@
 ---
+- name: Git - Clone node installation repo
+  ansible.builtin.git:
+    repo: https://github.com/Cerebellum-Network/nodes-installation-scripts.git
+    dest: /app/cere-network
+    single_branch: true
+    version: master
+    force: true
+
 - name: Change directory permissions for cere-network/chain-data
   ansible.builtin.file:
-    dest: /mnt/cere-network/chain-data
+    dest: /app/cere-network/chain-data
     owner: root
     group: root
     state: directory
     mode: u=rwX,g=rwX,o=rwX
 
-- name: Create a symbolic link for cere-network
-  ansible.builtin.file:
-    src: /mnt/cere-network
-    dest: /root/cere-network
-    owner: root
-    group: root
-    state: link
-    mode: u=rwX,g=rwX,o=rwX
-
 - name: Change directory permissions for cere-data
   ansible.builtin.file:
-    dest: /mnt/cere-data
+    dest: "{{ mnt_point }}"
     owner: root
     group: root
-    mode: u=rwX,g=rwX,o=rwX
-
-- name: Create a symbolic link for cere-data
-  ansible.builtin.file:
-    src: /mnt/cere-data
-    dest: /root/cere-data
-    owner: root
-    group: root
-    state: link
     mode: u=rwX,g=rwX,o=rwX
 
 - name: Configure docker environment
@@ -39,25 +29,27 @@
     mode: u=rw,g=r,o=r
   vars:
     env:
-      NODE_NAME: "{{ NODE_NAME }}"
-      VERSION: "{{ VERSION }}"
+      NODE_NAME: "{{ node_name }}"
+      VERSION: "{{ version }}"
 
-      BOOT_NODE_IP_ADDRESS: "{{ BOOT_NODE_IP_ADDRESS }}"
-      BOOT_NODE_IP_ADDRESS_2: "{{ BOOT_NODE_IP_ADDRESS_2 }}"
-      NETWORK_IDENTIFIER: "{{ NETWORK_IDENTIFIER }}"
-      NETWORK_IDENTIFIER_2: "{{ NETWORK_IDENTIFIER_2 }}"
+      BOOT_NODE_IP_ADDRESS: "{{ boot_node_ip_address }}"
+      BOOT_NODE_IP_ADDRESS_2: "{{ boot_node_ip_address_2 }}"
+      NETWORK_IDENTIFIER: "{{ network_identifier }}"
+      NETWORK_IDENTIFIER_2: "{{ network_identifier_2 }}"
 
       LOG_LEVEL: "{{ log_level }}"
-      SPEC_PATH: "{{ SPEC_PATH }}"
+      SPEC_PATH: "{{ spec_path }}"
 
-      CUSTOM_PARAMETERS: "{{ CUSTOM_PARAMETERS }}"
+      CUSTOM_PARAMETERS: "{{ custom_parameters }}"
 
 - name: Configure docker deployment
   ansible.builtin.set_fact:
     service_ports:
       - "9944:9944"
-      - "9933:9933"
+      - "8080:9933"
       - "30333:30333"
       - "9615:9615"
     service_volumes:
-      - "{{ mnt_point }}/cere-data:/data:rw"
+      - "/app/cere-network/spec-data:/cereio/spec-data:rw"
+      - "{{ mnt_point }}:/data:rw"
+    custom_command: "{{ lookup('ansible.builtin.template', 'command.sh.j2') }}"

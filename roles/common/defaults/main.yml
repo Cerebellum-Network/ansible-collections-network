@@ -1,2 +1,3 @@
 ---
 # defaults file for common
+ws_port: ""
