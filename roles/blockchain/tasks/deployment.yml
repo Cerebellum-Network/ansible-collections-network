@@ -85,3 +85,4 @@
       - "9615:9615"
     service_volumes:
       - "{{ mnt_point }}:/data:rw"
+      - "{{ mnt_point }}/spec-data:/cereio/spec-data:rw"
