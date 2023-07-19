@@ -1,4 +1,5 @@
----
+--- #          NODE_NAME: CereDevnetValidator0-DO
+
 - name: Check if sda is mounted
   ansible.builtin.stat:
     path: /dev/sda
@@ -62,18 +63,18 @@
     mode: u=rw,g=r,o=r
   vars:
     env:
-      NODE_NAME: "{{ NODE_NAME }}"
-      VERSION: "{{ VERSION }}"
+      NODE_NAME: "Cere{{ spec_path | capitalize }}{{ instance_type | capitalize }}0-DO"
+      VERSION: "{{ version }}"
 
-      BOOT_NODE_IP_ADDRESS: "{{ BOOT_NODE_IP_ADDRESS }}"
-      BOOT_NODE_IP_ADDRESS_2: "{{ BOOT_NODE_IP_ADDRESS_2 }}"
-      NETWORK_IDENTIFIER: "{{ NETWORK_IDENTIFIER }}"
-      NETWORK_IDENTIFIER_2: "{{ NETWORK_IDENTIFIER_2 }}"
+      BOOT_NODE_IP_ADDRESS: "{{ boot_node_ip_address }}"
+      BOOT_NODE_IP_ADDRESS_2: "{{ boot_node_ip_address_2 }}"
+      NETWORK_IDENTIFIER: "{{ network_identifier }}"
+      NETWORK_IDENTIFIER_2: "{{ network_identifier_2 }}"
 
       LOG_LEVEL: "{{ log_level }}"
-      SPEC_PATH: "{{ SPEC_PATH }}"
+      SPEC_PATH: "{{ spec_path }}"
 
-      CUSTOM_PARAMETERS: "{{ CUSTOM_PARAMETERS }}"
+      CUSTOM_PARAMETERS: "{{ custom_parameters }}"
 
 - name: Configure docker deployment
   ansible.builtin.set_fact:
