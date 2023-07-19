@@ -16,6 +16,6 @@ services:
     env_file:
     - "/app/.env"
     {% if custom_command != "" -%}
-    command: |
+    command: |-
         {{ custom_command }}
     {% endif -%}
