@@ -63,7 +63,7 @@
     mode: u=rw,g=r,o=r
   vars:
     env:
-      NODE_NAME: "Cere{{ spec_path | capitalize }}{{ instance_type | capitalize }}0-DO"
+      NODE_NAME: "Cere{{ spec_path | capitalize }}{{ instance_type | capitalize }}{{ instance_id }}-DO"
       VERSION: "{{ version }}"
 
       BOOT_NODE_IP_ADDRESS: "{{ boot_node_ip_address }}"
