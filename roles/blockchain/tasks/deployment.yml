@@ -1,7 +1,28 @@
 ---
+- name: Check if sda is mounted
+  ansible.builtin.stat:
+    path: /dev/sda
+  register: mounted
+
+- name: Mount /dev/sda by following path /mnt/cere-data
+  ansible.posix.mount:
+    path: "{{ mnt_point }}"
+    src: /dev/sda
+    opts: defaults,nofail,discard
+    state: mounted
+  when: mounted.stat.exists
+
+- name: Git - Clone node installation repo
+  ansible.builtin.git:
+    repo: https://github.com/Cerebellum-Network/nodes-installation-scripts.git
+    dest: /app/cere-network
+    single_branch: yes
+    version: master
+    force: yes
+
 - name: Change directory permissions for cere-network/chain-data
   ansible.builtin.file:
-    dest: /mnt/cere-network/chain-data
+    dest: /app/cere-network/chain-data
     owner: root
     group: root
     state: directory
@@ -9,7 +30,7 @@
 
 - name: Create a symbolic link for cere-network
   ansible.builtin.file:
-    src: /mnt/cere-network
+    src: /app/cere-network
     dest: /root/cere-network
     owner: root
     group: root
@@ -18,14 +39,14 @@
 
 - name: Change directory permissions for cere-data
   ansible.builtin.file:
-    dest: /mnt/cere-data
+    dest: "{{ mnt_point }}"
     owner: root
     group: root
     mode: u=rwX,g=rwX,o=rwX
 
 - name: Create a symbolic link for cere-data
   ansible.builtin.file:
-    src: /mnt/cere-data
+    src: "{{ mnt_point }}"
     dest: /root/cere-data
     owner: root
     group: root
@@ -60,4 +81,4 @@
       - "30333:30333"
       - "9615:9615"
     service_volumes:
-      - "{{ mnt_point }}/cere-data:/data:rw"
+      - "{{ mnt_point }}:/data:rw"
