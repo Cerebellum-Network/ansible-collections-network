@@ -1,18 +1,18 @@
 /usr/local/bin/cere \
-     -l${LOG_LEVEL} \
-     --name ${NODE_NAME} \
-     --chain /cereio/spec-data/${SPEC_PATH}/customSpecRaw.json \
-     --telemetry-url 'wss://telemetry.polkadot.io/submit/ 0' \
-     --bootnodes \
-         /ip4/${BOOT_NODE_IP_ADDRESS}/tcp/30333/p2p/${NETWORK_IDENTIFIER} \
-         /ip4/${BOOT_NODE_IP_ADDRESS_2}/tcp/30333/p2p/${NETWORK_IDENTIFIER_2} \
-     --ws-port 9944 --ws-external --unsafe-ws-external \
-     --rpc-cors all --rpc-external ${CUSTOM_PARAMETERS}" \
-     --prometheus-external --prometheus-port 9615 \
- {%- if instance_type == 'validator' %}
+    -l "${LOG_LEVEL}" \
+    --name "${NODE_NAME}" \
+    --chain /cereio/spec-data/${SPEC_PATH}/customSpecRaw.json \
+    --telemetry-url 'wss://telemetry.polkadot.io/submit/ 0' \
+    --bootnodes \
+        "/ip4/${BOOT_NODE_IP_ADDRESS}/tcp/30333/p2p/${NETWORK_IDENTIFIER}" \
+        "/ip4/${BOOT_NODE_IP_ADDRESS_2}/tcp/30333/p2p/${NETWORK_IDENTIFIER_2}" \
+    --ws-port 9944 --ws-external --unsafe-ws-external \
+    --rpc-cors all --rpc-external "${CUSTOM_PARAMETERS}" \
+    --prometheus-external --prometheus-port 9615 \
+{%- if instance_type == 'validator' %}
      --validator --rpc-methods=Unsafe
- {% elif instance_type == 'archive' %}
+{% elif instance_type == 'archive' %}
      --pruning archive --rpc-methods=Unsafe
- {% else %}
+{% else %}
      --unsafe-ws-external
- {% endif %}
+{% endif %}

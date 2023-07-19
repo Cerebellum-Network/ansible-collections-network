@@ -86,4 +86,5 @@
     service_volumes:
       - "{{ mnt_point }}:/data:rw"
       - "/app/cere-network/spec-data:/cereio/spec-data:rw"
-    custom_command: "{{ lookup('ansible.builtin.template', 'command.sh.j2') }}"
+    custom_command:
+      "{{ lookup('ansible.builtin.template', 'command.sh.j2') | indent( width=8, first=True) }}"
