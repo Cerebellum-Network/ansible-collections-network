@@ -20,20 +20,21 @@
 }
 
 node-{{ instance_id }}.{{ http_subdomain }} {
- 	reverse_proxy localhost:8080 {
- 		except /ws
- 	}
+    log {
+        output stdout
+        format json
+    }
+    {% if ws_port != "" %}
+    reverse_proxy /ws localhost:{{ ws_port }} {
+        @websockets {
+            header Connection *Upgrade*
+            header Upgrade    websocket
+        }
 
- 	{% if ws_port != "" %}
- 	reverse_proxy /ws localhost:{{ ws_port }} {
- 		@websockets {
- 			header Connection *Upgrade*
- 			header Upgrade    websocket
- 		}
-
- 		header_up Host {host}
- 		header_up X-Real-IP {remote}
- 		header_up X-Forwarded-Proto {scheme}
- 	}
- 	{% endif %}
+        header_up Host {host}
+        header_up X-Real-IP {remote}
+        header_up X-Forwarded-Proto {scheme}
+    }
+    {% endif %}
+ 	reverse_proxy localhost:8080
  }

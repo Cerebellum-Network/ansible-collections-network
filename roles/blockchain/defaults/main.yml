@@ -1,3 +1,4 @@
 ---
-# defaults file for blockchain-validator
+# defaults file for blockchain
+
 ws_port: ""
