@@ -80,10 +80,10 @@
   ansible.builtin.set_fact:
     service_ports:
       - "9944:9944"
-      - "9933:9933"
+      - "8080:9933"
       - "30333:30333"
       - "9615:9615"
     service_volumes:
       - "{{ mnt_point }}:/data:rw"
       - "/app/cere-network/spec-data:/cereio/spec-data:rw"
-
+    custom_command: "{{ lookup('ansible.builtin.template', 'command.sh.j2') }}"
