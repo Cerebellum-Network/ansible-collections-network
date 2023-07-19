@@ -1,2 +1,3 @@
 ---
 # defaults file for docker_deployment
+custom_command: ""

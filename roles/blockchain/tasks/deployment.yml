@@ -86,3 +86,4 @@
     service_volumes:
       - "{{ mnt_point }}:/data:rw"
       - "/app/cere-network/spec-data:/cereio/spec-data:rw"
+
