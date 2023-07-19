@@ -1,5 +1,4 @@
---- #          NODE_NAME: CereDevnetValidator0-DO
-
+---
 - name: Check if sda is mounted
   ansible.builtin.stat:
     path: /dev/sda
