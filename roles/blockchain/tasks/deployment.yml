@@ -10,6 +10,7 @@
     src: /dev/sda
     opts: defaults,nofail,discard
     state: mounted
+    fstype: ext4
   when: mounted.stat.exists
 
 - name: Git - Clone node installation repo
