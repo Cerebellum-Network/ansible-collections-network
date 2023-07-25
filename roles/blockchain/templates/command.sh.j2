@@ -7,8 +7,9 @@
         "/ip4/${BOOT_NODE_IP_ADDRESS}/tcp/30333/p2p/${NETWORK_IDENTIFIER}"
         "/ip4/${BOOT_NODE_IP_ADDRESS_2}/tcp/30333/p2p/${NETWORK_IDENTIFIER_2}"
     --ws-port 9944 --ws-external --unsafe-ws-external
-    --rpc-cors all --rpc-external "${CUSTOM_PARAMETERS}"
+    --rpc-cors all --rpc-external
     --prometheus-external --prometheus-port 9615
+    ${CUSTOM_PARAMETERS}
 {% if instance_type == 'validator' %}
      --validator --rpc-methods=Unsafe
 {% elif instance_type == 'archive' %}
