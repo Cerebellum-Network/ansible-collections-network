@@ -9,7 +9,7 @@
     --ws-port 9944 --ws-external --unsafe-ws-external \
     --rpc-cors all --rpc-external "${CUSTOM_PARAMETERS}" \
     --prometheus-external --prometheus-port 9615 \
-{%- if instance_type == 'validator' %}
+{% if instance_type == 'validator' %}
      --validator --rpc-methods=Unsafe
 {% elif instance_type == 'archive' %}
      --pruning archive --rpc-methods=Unsafe
