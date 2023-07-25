@@ -40,3 +40,8 @@
     enabled: true
     daemon_reload: true
     name: docker-compose
+    state: started
+  register: docker_compose_service
+  until: docker_compose_service.status.ActiveState == "active"
+  retries: 10
+  delay: 10
