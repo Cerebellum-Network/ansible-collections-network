@@ -1,17 +1,22 @@
 ---
-- name: Check if sda is mounted
+- name: Check if block storage attached
   ansible.builtin.stat:
     path: /dev/sda
-  register: mounted
+  register: block_storage
 
-- name: Mount /dev/sda by following path /mnt/cere-data
+- name: Create mount point directory
+  file:
+    path: "{{ mnt_point }}"
+    state: directory
+
+- name: Mount block storage to mount point
   ansible.posix.mount:
     path: "{{ mnt_point }}"
     src: /dev/sda
     opts: defaults,nofail,discard
     state: mounted
     fstype: ext4
-  when: mounted.stat.exists
+  when: block_storage.stat.exists
 
 - name: Git - Clone node installation repo
   ansible.builtin.git:

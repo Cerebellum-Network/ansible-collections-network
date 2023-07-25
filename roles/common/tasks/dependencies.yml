@@ -25,7 +25,3 @@
       - requests
       - setuptools
     executable: pip3
-
-# - name: Configure Hostname
-#  ansible.builtin.hostname:
-#    name: node-{{ instance_id }}.{{ http_subdomain }}
