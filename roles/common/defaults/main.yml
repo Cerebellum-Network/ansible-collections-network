@@ -1,2 +1,4 @@
 ---
 # defaults file for common
+
+http_domain: ~
