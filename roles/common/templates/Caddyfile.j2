@@ -9,11 +9,11 @@
 	redir @http https://{host}{uri}
 }
 
-{% if http_domain -%}
-    {{ http_domain }}
+{% if instance_name -%}
+    {{ instance_name }}
 {%- else -%}
-    node-{{ instance_id }}.{{ http_subdomain }}
-{%- endif %} {
+    node-{{ instance_id }}
+{%- endif %}.{{ http_subdomain }} {
     log {
         output stdout
         format json
