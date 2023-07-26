@@ -1,13 +1,3 @@
-# The Caddyfile is an easy way to configure your Caddy web server.
-#
-# Unless the file starts with a global options block, the first
-# uncommented line is always the address of your site.
-#
-# To use your own domain name (with automatic HTTPS), first make
-# sure your domain's A/AAAA DNS records are properly pointed to
-# this machine's public IP, then replace ":80" below with your
-# domain name.
-
 {
 	acme_ca https://acme-v02.api.letsencrypt.org/directory
 }
@@ -19,10 +9,10 @@
 	redir @http https://{host}{uri}
 }
 
-{% if http_domain %}
-{{ http_domain }}
-{%- else %}
-node-{{ instance_id }}.{{ http_subdomain }}
+{% if http_domain -%}
+    {{ http_domain }}
+{%- else -%}
+    node-{{ instance_id }}.{{ http_subdomain }}
 {%- endif %} {
     log {
         output stdout
