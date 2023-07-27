@@ -1,4 +1,4 @@
 ---
 # defaults file for blockchain
 
-ws_port: ""
+ws_port: 9944

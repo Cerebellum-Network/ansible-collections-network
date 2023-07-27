@@ -23,3 +23,14 @@
     mode: u=rw,g=r,o=r
   notify:
     - Restart Caddy
+
+- name: Configure Hostname
+  ansible.builtin.hostname:
+    name: "{{ instance_name }}.{{ http_subdomain }}"
+  when: instance_name is defined
+
+
+- name: Configure Hostname
+  ansible.builtin.hostname:
+    name: "node-{{ instance_id }}.{{ http_subdomain }}"
+  when: instance_name is none
