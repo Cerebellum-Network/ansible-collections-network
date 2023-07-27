@@ -27,7 +27,7 @@
 - name: Configure Hostname
   ansible.builtin.hostname:
     name: "{{ instance_name }}.{{ http_subdomain }}"
-  when: instance_name is defined
+  when: instance_name is not none
 
 
 - name: Configure Hostname
