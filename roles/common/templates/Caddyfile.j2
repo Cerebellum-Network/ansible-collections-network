@@ -19,16 +19,11 @@
         format json
     }
     {% if ws_port != "" %}
-    reverse_proxy /ws localhost:{{ ws_port }} {
-        @websockets {
-            header Connection *Upgrade*
-            header Upgrade    websocket
-        }
-
-        header_up Host {host}
-        header_up X-Real-IP {remote}
-        header_up X-Forwarded-Proto {scheme}
+    @websockets {
+        header Connection *Upgrade*
+        header Upgrade    websocket
     }
+    reverse_proxy @websockets localhost:{{ ws_port }}
     {% endif %}
  	reverse_proxy localhost:8080
  }
