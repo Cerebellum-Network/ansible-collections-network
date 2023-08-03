@@ -1,7 +1,11 @@
 ---
+- name: Check if do_id is defined
+  set_fact:
+    device_path: "{{ '/dev/sda' if ansible_facts['do_id'] is defined else '/dev/sdb' }}"
+
 - name: Check if block storage attached
   ansible.builtin.stat:
-    path: /dev/sda
+    path: "{{ device_path }}"
   register: block_storage
 
 - name: Create mount point directory
@@ -12,7 +16,7 @@
 - name: Mount block storage to mount point
   ansible.posix.mount:
     path: "{{ mnt_point }}"
-    src: /dev/sda
+    src: "{{ device_path }}"
     opts: defaults,nofail,discard
     state: mounted
     fstype: ext4
