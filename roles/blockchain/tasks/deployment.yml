@@ -73,7 +73,7 @@
   vars:
     env:
       NODE_NAME: "Cere{{ spec_path | capitalize }}{{ instance_type | capitalize }}{{ instance_id }}"
-      VERSION: "{{ image_tag }}"
+      VERSION: "{{ deployment['image_tag'] }}"
 
       BOOT_NODE_IP_ADDRESS: "{{ boot_node_ip_address }}"
       BOOT_NODE_IP_ADDRESS_2: "{{ boot_node_ip_address_2 }}"

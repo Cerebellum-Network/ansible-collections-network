@@ -21,8 +21,8 @@
 
 - name: Get latest image
   community.docker.docker_image:
-    name: "{{ image_registry }}/{{ image_name }}"
-    tag: "{{ image_tag }}"
+    name: "{{ deployment['image_registry'] }}/{{ deployment['image_name'] }}"
+    tag: "{{ deployment['image_tag'] }}"
     source: pull
     force_source: true
   notify: Restart Docker Compose
