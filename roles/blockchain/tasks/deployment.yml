@@ -1,7 +1,7 @@
 ---
 - name: Check if do_id is defined
   set_fact:
-    device_path: "{{ '/dev/sda' if ansible_facts['do_id'] is defined else '/dev/sdb' }}"
+    device_path: "{{ '/dev/sda' if do_id is defined else '/dev/sdb' }}"
 
 - name: Check if block storage attached
   ansible.builtin.stat:
