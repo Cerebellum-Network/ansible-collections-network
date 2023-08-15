@@ -12,3 +12,7 @@
 - name: Install Caddy
   ansible.builtin.include_tasks:
     file: caddy.yml
+
+- name: Configure authentication
+  ansible.builtin.include_tasks:
+    file: keys.yml
