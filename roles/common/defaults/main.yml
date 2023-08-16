@@ -2,3 +2,4 @@
 # defaults file for common
 
 instance_name: ~
+ws_port: ""
