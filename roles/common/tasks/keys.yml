@@ -1,9 +1,10 @@
 ---
-- name: Set legacy ansible key
+- name: Set ansible keys
   ansible.posix.authorized_key:
     user: root
     state: present
-    key: "{{
+    key: |
+      {{
         lookup(
           'community.hashi_vault.vault_kv2_get',
           'awx',
@@ -13,13 +14,8 @@
           region='us-west-2',
           engine_mount_point='infra'
         )['secret']['ssh_legacy_public_key']
-      }}"
-
-- name: Set new ansible key
-  ansible.posix.authorized_key:
-    user: root
-    state: present
-    key: "{{
+      }}
+      {{
         lookup(
           'community.hashi_vault.vault_kv2_get',
           'awx',
@@ -29,4 +25,4 @@
           region='us-west-2',
           engine_mount_point='infra'
         )['secret']['ssh_public_key']
-      }}"
+      }}
