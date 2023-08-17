@@ -7,7 +7,7 @@
       {{
         lookup(
           'community.hashi_vault.vault_kv2_get',
-          'awx',
+          'ansible',
           url='https://vault.shared.aws.cere.io',
           auth_method='aws_iam',
           role_id='ansible',
@@ -18,7 +18,7 @@
       {{
         lookup(
           'community.hashi_vault.vault_kv2_get',
-          'awx',
+          'ansible',
           url='https://vault.shared.aws.cere.io',
           auth_method='aws_iam',
           role_id='ansible',
