@@ -13,6 +13,7 @@
       DDC_BUCKET_CONTRACT_API_URL: "{{ ddc_bucket_contract_url }}"
       DDC_BUCKET_CONTRACT_ACCOUNT_ID: "{{ ddc_bucket_contract_account_id }}"
       NODE_ID: "{{ NODE_ID | default(instance_id | int + 1) }}"
+      NODE_SECRET_PHRASE: "{{ vars['node_secret_phrase_' + instance_id] }}"
       CLUSTER_ID: "{{ cluster_id }}"
       STORAGE: "{{ storage }}"
   notify: Restart Docker Compose
