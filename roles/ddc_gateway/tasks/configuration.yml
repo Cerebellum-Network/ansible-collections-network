@@ -16,6 +16,7 @@
       BLOCKCHAIN_API_URL: "{{ blockchain_api_url }}"
       BLOCKCHAIN_DDC_BUCKET_CONTRACT: "{{ blockchain_ddc_bucket_contract }}"
       BLOCKCHAIN_ACTIVITY_CAPTURE_CONTRACT: "{{ blockchain_activity_capture_contract }}"
+      NODE_SECRET_PHRASE: "{{ vars['node_secret_phrase_' + instance_id] }}"
 
       REDIS_URL: "{{ redis_url }}"
       REDIS_PASSWORD: "{{
