@@ -16,6 +16,19 @@
       NODE_SECRET_PHRASE: "{{ vars['node_secret_phrase_' + instance_id] }}"
       CLUSTER_ID: "{{ cluster_id }}"
       STORAGE: "{{ storage }}"
+
+      REDIS_URL: "{{ redis_url }}"
+      REDIS_PASSWORD: "{{
+        lookup(
+          'community.hashi_vault.vault_kv2_get',
+          environment_type + '/k8s/ddc-' + environment_type + '/dac-redis',
+          url='https://vault.shared.aws.cere.io',
+          auth_method='aws_iam',
+          role_id='ansible',
+          region='us-west-2',
+          engine_mount_point='secret-network'
+        )['secret']['REDIS_PASSWORD']
+      }}"
   notify: Restart Docker Compose
 
 - name: Configure docker deployment
