@@ -46,6 +46,7 @@
     owner: root
     group: root
     state: link
+    force: true
     mode: u=rwX,g=rwX,o=rwX
 
 - name: Change directory permissions for cere-data
