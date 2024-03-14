@@ -18,12 +18,12 @@
         output stdout
         format json
     }
-    {% if ws_port != "" %}
+    {% if rpc_port != "" %}
     @websockets {
         header Connection *Upgrade*
         header Upgrade    websocket
     }
-    reverse_proxy @websockets localhost:{{ ws_port }}
+    reverse_proxy localhost:{{ rpc_port }}
     {% endif %}
  	reverse_proxy localhost:8080
  }
