@@ -1,0 +1,10 @@
+---
+- name: Creates nginx directory
+  file:
+    path: /app/nginx
+    state: directory
+
+- name: Copy nginx config
+  copy:
+    src: files/nginx/nginx.conf
+    dest: /app/nginx/nginx.conf
